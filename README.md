@@ -136,6 +136,3 @@ docker run --rm -p 5000:5000 --env-file .env orh-bot
 > Tip: Put your `NEWSAPI_KEY` in a local `.env` and pass it with `--env-file`.
 
 ---
-
-## 10) Jupyter Notebook (Optional)
-A starter notebook `workshop.ipynb` is included with examples for calling endpoints using Python.
