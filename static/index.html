@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ORH Workshop Bots</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h1 { margin-bottom: 0.5rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+    .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    pre { background: #f7f7f7; padding: 1rem; border-radius: 8px; overflow: auto; }
+    .footer { margin-top: 2rem; font-size: 0.9rem; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Automate & Integrate – Workshop Bots</h1>
+  <p>Use this simple UI to call the Flask endpoints.</p>
+
+  <div class="card">
+    <h2>Weather Bot</h2>
+    <div class="row">
+      <input id="city" placeholder="Enter city (e.g., Atlanta)" />
+      <button onclick="getWeather()">Get Weather</button>
+    </div>
+    <pre id="weatherOut">Result will appear here…</pre>
+  </div>
+
+  <div class="card">
+    <h2>News Bot</h2>
+    <div class="row">
+      <input id="newsq" placeholder="Keyword (e.g., ai)" />
+      <button onclick="getNews()">Search News</button>
+    </div>
+    <pre id="newsOut">Result will appear here…</pre>
+  </div>
+
+  <div class="card">
+    <h2>Jokes Bot</h2>
+    <div class="row">
+      <button onclick="getJoke()">Tell me a joke</button>
+    </div>
+    <pre id="jokeOut">Result will appear here…</pre>
+  </div>
+
+  <div class="card">
+    <h2>Crypto Price Bot</h2>
+    <div class="row">
+      <input id="symbol" placeholder="coin id (e.g., bitcoin)" />
+      <input id="vs" placeholder="vs currency (e.g., usd)" />
+      <button onclick="getCrypto()">Get Price</button>
+    </div>
+    <pre id="cryptoOut">Result will appear here…</pre>
+  </div>
+
+  <div class="footer">
+    <em>Tip:</em> Make sure the Flask app is running locally (default: http://127.0.0.1:5000).
+  </div>
+
+  <script>
+    async function getWeather() {
+      const city = document.getElementById('city').value || 'Atlanta';
+      const res = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
+      const data = await res.json();
+      document.getElementById('weatherOut').textContent = JSON.stringify(data, null, 2);
+    }
+    async function getNews() {
+      const q = document.getElementById('newsq').value || 'ai';
+      const res = await fetch(`/api/news?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      document.getElementById('newsOut').textContent = JSON.stringify(data, null, 2);
+    }
+    async function getJoke() {
+      const res = await fetch(`/api/joke`);
+      const data = await res.json();
+      document.getElementById('jokeOut').textContent = JSON.stringify(data, null, 2);
+    }
+    async function getCrypto() {
+      const symbol = document.getElementById('symbol').value || 'bitcoin';
+      const vs = document.getElementById('vs').value || 'usd';
+      const res = await fetch(`/api/crypto?symbol=${encodeURIComponent(symbol)}&vs=${encodeURIComponent(vs)}`);
+      const data = await res.json();
+      document.getElementById('cryptoOut').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
